@@ -15,16 +15,16 @@
   ],
   "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/(.*\\.(js|css|png|svg|ico|json|woff|woff2|ttf|map))",
-      "dest": "/frontend/dist/$1"
+      "source": "/(.*\\.(js|css|png|svg|ico|json|woff|woff2|ttf|map))",
+      "destination": "/frontend/dist/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/index.html"
+      "source": "/(.*)",
+      "destination": "/frontend/dist/index.html"
     }
   ]
 }
