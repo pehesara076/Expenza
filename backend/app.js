@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
@@ -67,6 +69,20 @@ routeMappings.forEach(([path, router]) => {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
+
+// Serve frontend build in production (Render / single-service deploy)
+if (process.env.NODE_ENV === 'production') {
+  const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
+
+  if (fs.existsSync(frontendDistPath)) {
+    app.use(express.static(frontendDistPath));
+
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api')) return next();
+      res.sendFile(path.join(frontendDistPath, 'index.html'));
+    });
+  }
+}
 
 // 4. Global Error Handler
 app.use((err, req, res, next) => {

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: expenza
+    env: node
+    plan: free
+    buildCommand: npm install && npm --prefix frontend install && npm --prefix frontend run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false
