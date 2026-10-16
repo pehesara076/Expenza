@@ -73,13 +73,21 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Dat
 // Serve frontend build in production (Render / single-service deploy)
 if (process.env.NODE_ENV === 'production') {
   const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
+  const frontendIndexPath = path.join(frontendDistPath, 'index.html');
 
   if (fs.existsSync(frontendDistPath)) {
+    const frontendIndexHtml = fs.existsSync(frontendIndexPath)
+      ? fs.readFileSync(frontendIndexPath, 'utf8')
+      : null;
+
     app.use(express.static(frontendDistPath));
 
     app.get('*', (req, res, next) => {
       if (req.path.startsWith('/api')) return next();
-      res.sendFile(path.join(frontendDistPath, 'index.html'));
+      if (!frontendIndexHtml) {
+        return res.status(500).send('Frontend build not found');
+      }
+      return res.type('html').send(frontendIndexHtml);
     });
   }
 }
