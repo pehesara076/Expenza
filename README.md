@@ -1,6 +1,6 @@
 # 💎 ExpenseManager
 
-A full-stack personal finance web app for couples — track income, expenses, a shared weekly budget, debts, and todos. Built with the MERN stack and deployable to Vercel.
+A full-stack personal finance web app for couples — track income, expenses, a shared weekly budget, debts, and todos. Built with the MERN stack and deployable to Render.
 
 ---
 
@@ -37,7 +37,8 @@ Money_Balancing/
 │       ├── pages/            # Route pages
 │       └── utils.js          # Formatters & constants
 ├── scripts/seed.js           # Sample data seed
-├── vercel.json               # Vercel deployment config
+├── render.yaml               # Render deployment config
+├── vercel.json               # Vercel deployment config (optional)
 ├── .env.example
 └── README.md
 ```
@@ -113,7 +114,7 @@ This creates two pre-linked demo accounts:
 
 ---
 
-## Deploy to Vercel
+## Deploy to Render
 
 ### 1. Push to GitHub
 
@@ -123,30 +124,29 @@ git remote add origin <your-github-repo>
 git push -u origin main
 ```
 
-### 2. Import into Vercel
+### 2. Create a Web Service in Render
 
-1. Go to [vercel.com](https://vercel.com) → New Project → Import from GitHub
-2. Select the `Money_Balancing` repo
-3. Set the **Root Directory** to `.` (repo root)
-4. **Build Command**: `cd frontend && npm install && npm run build`
-5. **Output Directory**: `frontend/dist`
+1. Go to [render.com](https://render.com) → **New +** → **Blueprint**
+2. Connect your GitHub account and select this repository
+3. Render will detect `render.yaml` and prefill the service settings
 
-### 3. Set environment variables in Vercel
+### 3. Set environment variables in Render
 
-Go to **Project → Settings → Environment Variables** and add:
+In **Service → Environment**, set:
 
 | Key | Value |
 |-----|-------|
 | `MONGODB_URI` | Your Atlas connection string |
 | `JWT_SECRET` | A long random secret |
-| `CLIENT_URL` | `https://your-app.vercel.app` |
+| `CLIENT_URL` | `https://your-service-name.onrender.com` |
 | `NODE_ENV` | `production` |
 
 ### 4. Deploy
 
-Click **Deploy**. Vercel will:
-- Build the React frontend and serve it as static files
-- Serve the Express API as a serverless function under `/api`
+Click **Apply** / **Deploy**. Render will:
+- Install backend + frontend dependencies
+- Build the React frontend into `frontend/dist`
+- Start the Node/Express server and serve both API + frontend from one service
 
 ---
 
@@ -183,4 +183,4 @@ Click **Deploy**. Vercel will:
 | Backend | Node.js, Express 4, Mongoose 8 |
 | Database | MongoDB Atlas |
 | Auth | bcryptjs, JWT, httpOnly cookies |
-| Deploy | Vercel (static + serverless) |
+| Deploy | Render (single web service) |
