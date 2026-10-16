@@ -3,7 +3,7 @@ services:
     name: expenza
     env: node
     plan: free
-    buildCommand: npm install && npm --prefix frontend install && npm --prefix frontend run build
+    buildCommand: npm install && npm --prefix frontend install --include=dev && npm --prefix frontend run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
