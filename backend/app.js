@@ -51,12 +51,19 @@ app.use(async (req, res, next) => {
 });
 
 // 3. API Routes Definition
-app.use('/api/auth', authRoutes);
-app.use('/api/income', incomeRoutes);
-app.use('/api/expenses', expenseRoutes);
-app.use('/api/budget', budgetRoutes);
-app.use('/api/debts', debtRoutes);
-app.use('/api/todos', todoRoutes);
+const routeMappings = [
+  ['/auth', authRoutes],
+  ['/income', incomeRoutes],
+  ['/expenses', expenseRoutes],
+  ['/budget', budgetRoutes],
+  ['/debts', debtRoutes],
+  ['/todos', todoRoutes],
+];
+
+routeMappings.forEach(([path, router]) => {
+  app.use(`/api${path}`, router);
+  app.use(path, router);
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
